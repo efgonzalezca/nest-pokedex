@@ -21,3 +21,7 @@ npm i -g @nest/cli
 ```bash
 docker-compose up -d
 ```
+5. Reconstruir la base de datos con la semilla
+```bash
+GET http://localhost:4000/api/v2/seed
+```
