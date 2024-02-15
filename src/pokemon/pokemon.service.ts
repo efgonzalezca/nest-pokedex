@@ -6,16 +6,22 @@ import { Pokemon } from './entities/pokemon.entity';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { PaginationDto } from '../common/dto/pagination.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PokemonService {
-  private readonly pokemonModel: Model<Pokemon>
+  private readonly pokemonModel: Model<Pokemon>;
+  private readonly configService: ConfigService;
+  private defaultLimit: number;
 
   constructor(
     @InjectModel(Pokemon.name)
-    pokemonModel: Model<Pokemon>
+    pokemonModel: Model<Pokemon>,
+    configService: ConfigService
   ) {
     this.pokemonModel = pokemonModel;
+    this.configService = configService;
+    this.defaultLimit = configService.get<number>('defaultLimit');
   }
 
   async create(createPokemonDto: CreatePokemonDto) {
